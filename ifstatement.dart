@@ -53,5 +53,24 @@ void main()
     print("Fail");
   }
 
+  int gfg = 10;
+  if(gfg > 9){
+    gfg++;
+    if(gfg < 10){
+      print("condition 2 is true");
+    }else{
+      print("All the condition are false");
+    }
+  }
+
+  int x = 7,y = 8;
+
+  if ((x++ > y--) && (x++ < ++y)){
+    print("condition true");
+  }else{
+    print("condition false");
+  }
+  print(x);
+  print(y);
 
 }
