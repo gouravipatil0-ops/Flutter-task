@@ -40,7 +40,17 @@ void main()
   if (marks >= 90){
     print("Grade A");
   }else if(marks >= 80 ){
-
+    print("Grade B");
+  }else if(marks >= 70){
+    print("Grade C");
+  }else if(marks >= 60){
+    print("grade D");
+  }else if(marks >= 50){
+    print("Grade E");
+  }else if(marks >= 35){
+    print("pass");
+  }else{
+    print("Fail");
   }
 
 
