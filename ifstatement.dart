@@ -73,4 +73,36 @@ void main()
   print(x);
   print(y);
 
+  int num = 1;
+  switch(num)
+  {
+    case 1: {
+      print("GeeksforGeeks number 1");
+    }break; case 2: {
+      print("GeeksforGeeks number 2");
+    }break; case 3: {
+      print("GeeksforGeeks number 3");
+    }break; case 4: {
+      print("GeeksforGeeks number 4");
+    }break; default: {
+      print("this is default case");
+    }break ;
+  }
+
+  int num2 = 10;
+  String str = "Geek";
+  switch (num2){
+    case 1:{
+      switch(str){
+        case "Geek":{
+          print("Welcome");
+        }
+      }
+    } break; case 2:{
+      print("geeks number 2");
+    }break; default:{
+      print("this is default case");
+    }break;
+  }
+
 }

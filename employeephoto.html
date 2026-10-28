@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Photo Upload</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 30px;
+            background: #f5f5f5;
+        }
+
+        .form-box {
+            max-width: 400px;
+            margin: auto;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+        }
+
+        #preview {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            display: none;
+            margin-bottom: 15px;
+        }
+
+        button {
+            padding: 10px 16px;
+            margin: 5px 0;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            background: #f97316;
+            color: white;
+        }
+
+        .options {
+            display: none;
+            margin-top: 10px;
+        }
+
+        #cameraBox {
+            display: none;
+            margin-top: 15px;
+        }
+
+        video {
+            width: 100%;
+            border-radius: 8px;
+        }
+
+        #fileInput {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="form-box">
+    <h2>Employee Form</h2>
+
+    <label for="Name" >Name : </label>
+    <input type="text" placeholder="enter emplyoee name"><br><br>
+
+    <label for="">Email : </label>
+    <input type="text" placeholder="enter employee email"><br><br>
+
+    <label>Employee Photo</label> <br><br>
+   
+
+    <img id="preview" alt="Employee Photo">
+
+    <button type="button" id="uploadBtn">
+        Upload Photo
+    </button>
+
+    <div class="options" id="options">
+        <button type="button" id="chooseBtn">
+            Choose File
+        </button>
+
+        <button type="button" id="cameraBtn">
+            Open Camera
+        </button>
+    </div>
+
+    <input
+        type="file"
+        id="fileInput"
+        accept="image/*"
+    >
+
+    <div id="cameraBox">
+
+        <button type="button" id="captureBtn">
+            Capture Photo
+        </button>
+
+        <button type="button" id="closeBtn">
+            Close Camera
+        </button>
+    </div>
+
+    <!-- <canvas id="canvas" hidden></canvas> -->
+</div>
+
+<script>
+    const uploadBtn = document.getElementById("uploadBtn");
+    const options = document.getElementById("options");
+    const chooseBtn = document.getElementById("chooseBtn");
+    const cameraBtn = document.getElementById("cameraBtn");
+    const fileInput = document.getElementById("fileInput");
+    const preview = document.getElementById("preview");
+    const cameraBox = document.getElementById("cameraBox");
+    const captureBtn = document.getElementById("captureBtn");
+    const closeBtn = document.getElementById("closeBtn");
+
+    let cameraStream = null;
+
+    // Show both options
+    uploadBtn.addEventListener("click", () => {
+        options.style.display = "block";
+    });
+
+    // Choose image from device
+    chooseBtn.addEventListener("click", () => {
+        fileInput.click();
+    });
+
+    fileInput.addEventListener("change", () => {
+        const file = fileInput.files[0];
+
+        if (file && file.type.startsWith("image/")) {
+            preview.src = URL.createObjectURL(file);
+            preview.style.display = "block";
+            options.style.display = "none";
+        }
+    });
+
+    // Open live camera
+    cameraBtn.addEventListener("click", async () => {
+        try {
+            cameraStream =
+                await navigator.mediaDevices.getUserMedia({
+                    video: true,
+                    audio: false
+                });
+
+            video.srcObject = cameraStream;
+            cameraBox.style.display = "block";
+            options.style.display = "none";
+        } catch (error) {
+            alert("Camera permission dya ani punha try kara.");
+        }
+    });
+
+    // Capture photo
+    captureBtn.addEventListener("click", () => {
+        if (!video.videoWidth) return;
+
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+
+        const context = canvas.getContext("2d");
+        context.drawImage(video, 0, 0);
+
+        preview.src = canvas.toDataURL("image/png");
+        preview.style.display = "block";
+
+        stopCamera();
+    });
+
+    // Stop camera
+    function stopCamera() {
+        if (cameraStream) {
+            cameraStream.getTracks().forEach(track => track.stop());
+            cameraStream = null;
+        }
+
+        video.srcObject = null;
+        cameraBox.style.display = "none";
+    }
+
+    closeBtn.addEventListener("click", stopCamera);
+</script>
+
+</body>
+</html>
